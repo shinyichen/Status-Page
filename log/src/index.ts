@@ -28,7 +28,7 @@ export const env = envsafe({
     desc: "Name of the label. Not case sensitive"
   }),
   IGNORE_PREV_ARTIFACT: bool({
-    default: true,
+    default: false,
   })
 });
 
@@ -55,7 +55,6 @@ const sources = env.SOURCES.trim().split("\n").map((line) => line.split("->"));
 const logger = generateCoreLogger();
 const run = async () => {
 
-  const ignorePrevArtifact = env.IGNORE_PREV_ARTIFACT;
   const token = env.GITHUB_TOKEN;
   const api = getOctokit(token);
   const artifactManager = new ArtifactManager(api, logger, env.ARTIFACT_NAME);
@@ -63,7 +62,7 @@ const run = async () => {
 
   const siteResult: Map<string, ReportFile["site"][number]["status"]> = new Map();
 
-  if (!ignorePrevArtifact) {
+  if (!env.IGNORE_PREV_ARTIFACT) {
     const artifact = await artifactManager.getPreviousArtifact(repo, env.JOB_NAME);
     logger.info(`Found artifact with ${artifact?.site.length ?? 0} elements`);
     if (artifact) {
