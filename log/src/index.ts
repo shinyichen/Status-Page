@@ -62,7 +62,7 @@ const run = async () => {
 
   const siteResult: Map<string, ReportFile["site"][number]["status"]> = new Map();
 
-  if (!env.IGNORE_PREV_ARTIFACT) {
+  // if (!env.IGNORE_PREV_ARTIFACT) {
     const artifact = await artifactManager.getPreviousArtifact(repo, env.JOB_NAME);
     logger.info(`Found artifact with ${artifact?.site.length ?? 0} elements`);
     if (artifact) {
@@ -71,7 +71,7 @@ const run = async () => {
         siteResult.set(report.name, report.status)
       });
     }
-  }
+  // }
 
   const now = moment().unix();
 
