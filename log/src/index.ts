@@ -27,7 +27,9 @@ export const env = envsafe({
     default: "incident",
     desc: "Name of the label. Not case sensitive"
   }),
-  IGNORE_PREV_ARTIFACT: bool()
+  IGNORE_PREV_ARTIFACT: bool({
+    default: true,
+  })
 });
 
 const getRepo = (ctx: Context): Repo => {
