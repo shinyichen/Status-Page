@@ -67,6 +67,9 @@ export class ArtifactManager {
         artifact_id: artifact.id,
         archive_format: "zip"
       });
+      if (response.status !== 200 && response.status !== 302) {
+        return null;
+      }
       await writeFile(`${this.artifactName}.zip`, Buffer.from(response.data as string));
       execSync(`unzip -o ${this.artifactName}.zip -d ./logs`);
 
